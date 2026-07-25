@@ -1,5 +1,7 @@
 import Meeting from "../models/Meeting.js";
 import { transcribeAudio } from "../services/transcriptionService.js";
+import { analyzeMeeting } from "../services/geminiService.js";
+import { parseGeminiResponse } from "../utils/parseGeminiResponse.js";
 
 export const uploadMeeting = async (req, res) => {
   try {
@@ -12,13 +14,38 @@ export const uploadMeeting = async (req, res) => {
         message: "No audio file received",
       });
     }
-      const transcript = await transcribeAudio(req.file.path);
+     const transcript = await transcribeAudio(req.file.path);
+
+let summary = "";
+let actionItems = [];
+let keyDecisions = [];
+let nextSteps = [];
+
+try {
+    const aiResponse = await analyzeMeeting(transcript);
+    console.log("Gemini Response:");
+    console.log(aiResponse);
+
+    const parsed = parseGeminiResponse(aiResponse);
+console.log(parsed);
+    summary = parsed.summary;
+    actionItems = parsed.actionItems;
+    keyDecisions = parsed.keyDecisions;
+    nextSteps = parsed.nextSteps;
+} catch (error) {
+    console.error("Gemini Error:", error);
+}
 
     const meeting = await Meeting.create({
-      title: req.body.title,
-      filename: req.file.filename,
-      transcript,
-      uploadedBy: req.user.id,
+       title: req.body.title,
+  filename: req.file.filename,
+  transcript,
+   summary,
+    actionItems,
+    keyDecisions,
+    nextSteps,
+
+    uploadedBy: req.user.id,
     });
 
     res.status(201).json(meeting);
@@ -95,6 +122,30 @@ export const deleteMeeting = async (req, res) => {
       message: "Meeting deleted successfully",
     });
   } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+
+  }
+};
+export const getMeetingById = async (req, res) => {
+  try {
+    console.log("Requested ID:", req.params.id);
+    console.log("Logged in User:", req.user.id);
+
+    const meeting = await Meeting.findById(req.params.id);
+
+    console.log("Meeting:", meeting);
+
+    if (!meeting) {
+      return res.status(404).json({
+        message: "Meeting not found",
+      });
+    }
+
+    res.json(meeting);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({
       message: err.message,
     });

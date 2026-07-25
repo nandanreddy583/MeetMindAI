@@ -3,6 +3,7 @@ import {
   getMeetings,
   deleteMeeting,
 } from "../services/meetingService";
+import { Link } from "react-router-dom";
 
 const RecentMeetings = ({ refresh, onDelete }) => {
   const [meetings, setMeetings] = useState([]);
@@ -36,10 +37,8 @@ const RecentMeetings = ({ refresh, onDelete }) => {
     try {
       await deleteMeeting(id);
 
-      // Refresh meeting list
-      loadMeetings();
+      await loadMeetings();
 
-      // Refresh dashboard stats
       if (onDelete) {
         onDelete();
       }
@@ -78,8 +77,14 @@ const RecentMeetings = ({ refresh, onDelete }) => {
                 key={meeting._id}
                 className="border-b hover:bg-gray-50"
               >
+                {/* Clickable Title */}
                 <td className="py-4">
-                  {meeting.title}
+                  <Link
+                    to={`/meeting/${meeting._id}`}
+                    className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                  >
+                    {meeting.title}
+                  </Link>
                 </td>
 
                 <td>

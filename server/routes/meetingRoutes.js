@@ -11,18 +11,21 @@ import {
  
   
   getDashboardStats,
+   getMeetingById,
 } from "../controllers/meetingController.js";
 const router = express.Router();
-
-
-router.get("/stats", protect, getDashboardStats);
-router.get("/", protect, getMeetings);
 router.post(
   "/upload",
   protect,
   upload.single("audio"),
   uploadMeeting
 );
+router.get("/stats", protect, getDashboardStats);
+router.get("/", protect, getMeetings);
+
+
+
+router.get("/:id", protect, getMeetingById);
 router.delete("/:id", protect, deleteMeeting);
 
 

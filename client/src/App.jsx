@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import MeetingDetails from "./pages/MeetingDetails";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -24,6 +25,14 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+    path="/meeting/:id"
+    element={
+        <ProtectedRoute>
+            <MeetingDetails />
+        </ProtectedRoute>
+    }
+/>
     </Routes>
   );
 }

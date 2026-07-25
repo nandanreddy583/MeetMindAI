@@ -1,11 +1,10 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import meetingRoutes from "./routes/meetingRoutes.js";
 import path from "path";
-dotenv.config();
 
 connectDB();
 

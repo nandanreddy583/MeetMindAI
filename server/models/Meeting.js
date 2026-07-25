@@ -31,6 +31,16 @@ const meetingSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    keyDecisions: {
+    type: [String],
+    default: [],
+},
+
+nextSteps: {
+    type: [String],
+    default: [],
+},
+
   },
   {
     timestamps: true,

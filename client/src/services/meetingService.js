@@ -30,3 +30,13 @@ export const deleteMeeting = async (id) => {
 
   return response.data;
 };
+export const getMeeting = async (id) => {
+  const response = await API.get(`/meetings/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  return response.data;
+};
+
