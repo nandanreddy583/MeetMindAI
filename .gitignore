@@ -1,0 +1,13 @@
+# Environment files
+.env
+server/.env
+
+# Dependencies
+node_modules/
+
+# Uploads
+server/uploads/audio/*
+server/uploads/transcripts/*
+
+!server/uploads/audio/.gitkeep
+!server/uploads/transcripts/.gitkeep
