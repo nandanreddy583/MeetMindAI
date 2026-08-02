@@ -3,7 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { getMeeting } from "../services/meetingService";
 import MeetingChat from "../components/MeetingChat";
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000";
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? "" : "http://localhost:5000");
 
 const MeetingDetails = () => {
   const { id } = useParams();

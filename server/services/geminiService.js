@@ -1,4 +1,3 @@
-console.log("Gemini API Key:", process.env.GEMINI_API_KEY);
 import { GoogleGenAI } from "@google/genai";
 
 

@@ -22,7 +22,7 @@ export default function MeetingChat({ meetingId }) {
         try {
 
             const res = await axios.post(
-                "http://localhost:5000/api/chat",
+                `${import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "" : "http://localhost:5000")}/api/chat`,
                 {
                     meetingId,
                     question,
